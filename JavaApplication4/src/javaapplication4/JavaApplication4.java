@@ -22,6 +22,7 @@ public class JavaApplication4 {
         int entier1 = sc.nextInt();
         System.out.println(" saisissez le deuxieme : ");
         int entier2 = sc.nextInt();
+        
         System.out.println(" voici la somme: ");
         int result;
         result = entier1 + entier2;
