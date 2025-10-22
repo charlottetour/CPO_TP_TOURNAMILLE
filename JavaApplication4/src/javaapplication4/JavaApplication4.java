@@ -23,22 +23,30 @@ public class JavaApplication4 {
         System.out.println(" saisissez le deuxieme : ");
         int entier2 = sc.nextInt();
         System.out.println(" voici la somme: ");
-        int result ;
-        result = entier1 + entier2 ;
+        int result;
+        result = entier1 + entier2;
         System.out.println(result);
-        
+
         System.out.println(" voici la difference: ");
-        int result2 ;
-        result2 = entier1 - entier2 ;
+        int result2;
+        result2 = entier1 - entier2;
         System.out.println(result2);
-        
+
         System.out.println(" voici leur produit: ");
-        int result3 ;
-        result3 = entier1 + entier2 ;
+        int result3;
+        result3 = entier1 * entier2;
         System.out.println(result3);
-        
-        
-        
+
+        System.out.println(" voici le quotient entier du premier par le second : ");
+        int result4;
+        result4 = entier1 / entier2;
+        System.out.println(result4);
+
+        System.out.println(" voici le reste : ");
+        int result5;
+        result5 = entier1 % entier2;
+        System.out.println(result5);
+
     }
 
 }
