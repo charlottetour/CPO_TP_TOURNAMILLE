@@ -4,6 +4,8 @@
  */
 package tp3_heroic_fantasy_tournamille;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ctour
@@ -19,6 +21,26 @@ public class TP3_Heroic_Fantasy_TOURNAMILLE {
         Epée e2 = new Epée(4, "Durandal", 7);
         Baton b1 = new Baton(4, "Chêne", 5);
         Baton b2 = new Baton(5, "Charme", 6);
+
+        ArrayList<String> TabArme = new ArrayList<String>();
+        TabArme.add("Epée e1");
+        TabArme.add("Epée e2");
+        TabArme.add("Baton b1");
+        TabArme.add("Baton b2");
+        
+        int taille = TabArme.size();
+
+System.out.print("[");
+
+for (int i = 0; i < taille; i++) {
+    System.out.print(TabArme.get(i));
+    
+    if (i < taille - 1) {
+        System.out.print(", "); 
+    }
+}
+
+System.out.print("]");
     }
 
 }
