@@ -8,7 +8,9 @@
  * @author ctour
  */
 public class NewJFrame extends javax.swing.JFrame {
-    
+
+    private combinaisons jeu;   // logique du jeu
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame.class.getName());
 
     /**
@@ -16,8 +18,19 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     public NewJFrame() {
         initComponents();
+        jeu = new combinaisons();   // création du jeu
     }
+private void incrementer(javax.swing.JLabel label) {
+    int valeur = Integer.parseInt(label.getText());
+    valeur = (valeur + 1) % 10;
+    label.setText(String.valueOf(valeur));
+}
 
+private void decrementer(javax.swing.JLabel label) {
+    int valeur = Integer.parseInt(label.getText());
+    valeur = (valeur + 9) % 10;
+    label.setText(String.valueOf(valeur));
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -228,11 +241,11 @@ public class NewJFrame extends javax.swing.JFrame {
                     }// </editor-fold>//GEN-END:initComponents
 
     private void up_chiffre_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_up_chiffre_1ActionPerformed
-        // TODO add your handling code here:
+        incrementer(texte_chiffre_0);
     }//GEN-LAST:event_up_chiffre_1ActionPerformed
 
     private void down_chiffre_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_down_chiffre_1ActionPerformed
-        // TODO add your handling code here:
+        decrementer(texte_chiffre_0);
     }//GEN-LAST:event_down_chiffre_1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
