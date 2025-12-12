@@ -11,5 +11,15 @@ public class Resultat {
     private int exacts;
     private int tropHauts;
     private int tropBas;
+
+    public Resultat(int exacts, int tropHauts, int tropBas) {
+        this.exacts = exacts;
+        this.tropHauts = tropHauts;
+        this.tropBas = tropBas;
+    }
+
+   
     
-}
+
+
+    }
