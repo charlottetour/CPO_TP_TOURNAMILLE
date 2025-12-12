@@ -76,20 +76,39 @@ private void decrementer(javax.swing.JLabel label) {
             });
 
             up_chiffre_2.setText("/\\");
+                up_chiffre_2.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        up_chiffre_2ActionPerformed(evt);
+                    }
+                });
 
                 up_chiffre_3.setText("/\\");
+                    up_chiffre_3.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                            up_chiffre_3ActionPerformed(evt);
+                        }
+                    });
 
                     up_chiffre_4.setText("/\\");
+                        up_chiffre_4.addActionListener(new java.awt.event.ActionListener() {
+                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                up_chiffre_4ActionPerformed(evt);
+                            }
+                        });
 
+                        texte_chiffre_0.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                         texte_chiffre_0.setText("0");
                         texte_chiffre_0.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+                        texte_chiffre_1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                         texte_chiffre_1.setText("0");
                         texte_chiffre_1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+                        texte_chiffre_2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                         texte_chiffre_2.setText("0");
                         texte_chiffre_2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+                        texte_chiffre_3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                         texte_chiffre_3.setText("0");
                         texte_chiffre_3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -101,12 +120,32 @@ private void decrementer(javax.swing.JLabel label) {
                         });
 
                         down_chiffre_2.setText("\\/");
+                        down_chiffre_2.addActionListener(new java.awt.event.ActionListener() {
+                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                down_chiffre_2ActionPerformed(evt);
+                            }
+                        });
 
                         down_chiffre_3.setText("\\/");
+                        down_chiffre_3.addActionListener(new java.awt.event.ActionListener() {
+                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                down_chiffre_3ActionPerformed(evt);
+                            }
+                        });
 
                         down_chiffre_4.setText("\\/");
+                        down_chiffre_4.addActionListener(new java.awt.event.ActionListener() {
+                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                down_chiffre_4ActionPerformed(evt);
+                            }
+                        });
 
                         bouton_tester.setText("Tester");
+                        bouton_tester.addActionListener(new java.awt.event.ActionListener() {
+                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                bouton_testerActionPerformed(evt);
+                            }
+                        });
 
                         texte_lbl_nb_chiffres_exacts.setText("Nombre de chiffres exacts :");
 
@@ -137,63 +176,60 @@ private void decrementer(javax.swing.JLabel label) {
                         layout.setHorizontalGroup(
                             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(down_chiffre_1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(down_chiffre_2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(down_chiffre_3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(down_chiffre_4))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(up_chiffre_1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(up_chiffre_2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(up_chiffre_3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(up_chiffre_4))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(19, 19, 19)
-                                        .addComponent(texte_chiffre_0, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(55, 55, 55)
-                                        .addComponent(texte_chiffre_1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(59, 59, 59)
-                                        .addComponent(texte_chiffre_2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(48, 48, 48)
-                                        .addComponent(texte_chiffre_3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(78, 78, 78)
-                                        .addComponent(bouton_tester))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(texte_lbl_nb_chiffres_exacts, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(texte_lbl_nb_chiffres_haut, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(texte_lbl_nb_chiffres_bas, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(6, 6, 6)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(texte_nb_chiffres_bas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton1))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(texte_nb_chiffres_haut, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(texte_nb_chiffres_exacts, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(18, 18, 18))
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                        .addComponent(jLabel1)
-                                                        .addGap(36, 36, 36))))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(22, 22, 22)
-                                        .addComponent(texte_intro, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(111, Short.MAX_VALUE))
+                                        .addComponent(texte_intro, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(35, 35, 35)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(texte_chiffre_0, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(up_chiffre_1)
+                                            .addComponent(down_chiffre_1))
+                                        .addGap(80, 80, 80)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(up_chiffre_2)
+                                            .addComponent(texte_chiffre_1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(down_chiffre_2))
+                                        .addGap(81, 81, 81)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(up_chiffre_3)
+                                            .addComponent(texte_chiffre_2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(down_chiffre_3))
+                                        .addGap(89, 89, 89)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(down_chiffre_4)
+                                            .addComponent(up_chiffre_4)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(texte_chiffre_3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                                                .addComponent(bouton_tester)))))
+                                .addGap(64, 64, 64))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(texte_lbl_nb_chiffres_exacts, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(texte_lbl_nb_chiffres_haut, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(texte_lbl_nb_chiffres_bas, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(texte_nb_chiffres_bas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                                        .addComponent(jButton1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(texte_nb_chiffres_haut, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(texte_nb_chiffres_exacts, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel1)
+                                                .addGap(36, 36, 36)))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         );
                         layout.setVerticalGroup(
                             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,8 +285,67 @@ private void decrementer(javax.swing.JLabel label) {
     }//GEN-LAST:event_down_chiffre_1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        jeu.recommencer();
+
+    texte_chiffre_0.setText("0");
+    texte_chiffre_1.setText("0");
+    texte_chiffre_2.setText("0");
+    texte_chiffre_3.setText("0");
+
+    texte_nb_chiffres_exacts.setText("0");
+    texte_nb_chiffres_haut.setText("0");
+    texte_nb_chiffres_bas.setText("0");
+
+    jLabel1.setText("0 sur 5");
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void bouton_testerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bouton_testerActionPerformed
+          int[] proposition = {
+        Integer.parseInt(texte_chiffre_0.getText()),
+        Integer.parseInt(texte_chiffre_1.getText()),
+        Integer.parseInt(texte_chiffre_2.getText()),
+        Integer.parseInt(texte_chiffre_3.getText())
+    };
+
+    Resultat r = jeu.tester(proposition);
+
+    texte_nb_chiffres_exacts.setText(String.valueOf(r.getExacts()));
+    texte_nb_chiffres_haut.setText(String.valueOf(r.getTropHauts()));
+    texte_nb_chiffres_bas.setText(String.valueOf(r.getTropBas()));
+
+    jLabel1.setText(jeu.getTentatives() + " sur " + jeu.getMaxTentatives());
+
+    if (jeu.estGagne(r)) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Bravo ! Code trouvé 🎉");
+    } else if (jeu.estPerdu()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Perdu 😢");
+    }
+
+    }//GEN-LAST:event_bouton_testerActionPerformed
+
+    private void up_chiffre_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_up_chiffre_2ActionPerformed
+        incrementer(texte_chiffre_1);
+    }//GEN-LAST:event_up_chiffre_2ActionPerformed
+
+    private void up_chiffre_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_up_chiffre_3ActionPerformed
+        incrementer(texte_chiffre_2);
+    }//GEN-LAST:event_up_chiffre_3ActionPerformed
+
+    private void up_chiffre_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_up_chiffre_4ActionPerformed
+        incrementer(texte_chiffre_3);
+    }//GEN-LAST:event_up_chiffre_4ActionPerformed
+
+    private void down_chiffre_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_down_chiffre_2ActionPerformed
+        decrementer(texte_chiffre_1);
+    }//GEN-LAST:event_down_chiffre_2ActionPerformed
+
+    private void down_chiffre_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_down_chiffre_3ActionPerformed
+        decrementer(texte_chiffre_2);
+    }//GEN-LAST:event_down_chiffre_3ActionPerformed
+
+    private void down_chiffre_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_down_chiffre_4ActionPerformed
+        decrementer(texte_chiffre_3);
+    }//GEN-LAST:event_down_chiffre_4ActionPerformed
 
     /**
      * @param args the command line arguments
