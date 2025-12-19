@@ -5,7 +5,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
 import java.util.List;
 
@@ -169,6 +168,9 @@ public class NewJFrame extends javax.swing.JFrame {
             exchangeCards();
             redTurn = !redTurn;
             updateTurnLabel();
+            if (!redTurn) {
+                playAITurn();
+            }
         }
 
         resetBoardColors();
@@ -222,7 +224,7 @@ public class NewJFrame extends javax.swing.JFrame {
         resetBoardColors();
 
         // Vérifier victoire après le coup
-        checkVictory();
+        checkVictoryAfterMove(toRow, toCol);
 
     }
 
@@ -489,12 +491,34 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
 
-    private void checkVictory() {
+    private void checkVictoryAfterMove(int row, int col) {
+
+        Piece piece = board[row][col];
+        if (piece == null) {
+            return;
+        }
+
+        // 1️⃣ Victoire par temple
+        if (piece.getType() == Piece.Type.MASTER) {
+
+            if (piece.isRed()
+                    && row == BLUE_TEMPLE_ROW
+                    && col == BLUE_TEMPLE_COL) {
+                showWinner("Rouge");
+                return;
+            }
+
+            if (!piece.isRed()
+                    && row == RED_TEMPLE_ROW
+                    && col == RED_TEMPLE_COL) {
+                showWinner("Bleu");
+                return;
+            }
+        }
+
+        // 2️⃣ Victoire par capture du maître
         boolean redMasterAlive = false;
         boolean blueMasterAlive = false;
-
-        int redMasterRow = -1, redMasterCol = -1;
-        int blueMasterRow = -1, blueMasterCol = -1;
 
         for (int r = 0; r < 5; r++) {
             for (int c = 0; c < 5; c++) {
@@ -502,34 +526,18 @@ public class NewJFrame extends javax.swing.JFrame {
                 if (p != null && p.getType() == Piece.Type.MASTER) {
                     if (p.isRed()) {
                         redMasterAlive = true;
-                        redMasterRow = r;
-                        redMasterCol = c;
                     } else {
                         blueMasterAlive = true;
-                        blueMasterRow = r;
-                        blueMasterCol = c;
                     }
                 }
             }
         }
 
-        // Victoire par capture du maître
         if (!redMasterAlive) {
             showWinner("Bleu");
-            return;
         }
         if (!blueMasterAlive) {
             showWinner("Rouge");
-            return;
-        }
-
-        // Victoire par temple
-        if (redMasterRow == 0 && redMasterCol == 2) {
-            showWinner("Rouge");
-            return;
-        }
-        if (blueMasterRow == 4 && blueMasterCol == 2) {
-            showWinner("Bleu");
         }
     }
 
@@ -547,6 +555,66 @@ public class NewJFrame extends javax.swing.JFrame {
             list.add(m);
         }
         return list;
+    }
+
+    private void playAITurn() {
+        List<MoveAction> possibleActions = new ArrayList<>();
+
+        // 1️⃣ Trouver tous les coups possibles
+        for (int r = 0; r < 5; r++) {
+            for (int c = 0; c < 5; c++) {
+
+                if (board[r][c] != null && !board[r][c].isRed()) {
+
+                    for (Card card : playerCards) {
+                        if (card == null) {
+                            continue;
+                        }
+
+                        int direction = -1; // bleu
+
+                        for (Move move : card.getMoves()) {
+
+                            int newRow = r + move.dy * direction;
+                            int newCol = c + move.dx;
+
+                            if (newRow < 0 || newRow >= 5 || newCol < 0 || newCol >= 5) {
+                                continue;
+                            }
+
+                            if (board[newRow][newCol] == null
+                                    || board[newRow][newCol].isRed()) {
+
+                                possibleActions.add(
+                                        new MoveAction(r, c, newRow, newCol, card)
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 2️⃣ Aucun coup possible (très rare)
+        if (possibleActions.isEmpty()) {
+            redTurn = true;
+            updateTurnLabel();
+            return;
+        }
+
+        // 3️⃣ Choix aléatoire
+        MoveAction action = possibleActions.get(
+                (int) (Math.random() * possibleActions.size())
+        );
+
+        // 4️⃣ Jouer le coup
+        selectedCard = action.card;
+        movePiece(action.fromRow, action.fromCol, action.toRow, action.toCol);
+        exchangeCards();
+
+        // 5️⃣ Rendre la main au joueur
+        redTurn = true;
+        updateTurnLabel();
     }
 
 
