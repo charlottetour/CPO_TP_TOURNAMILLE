@@ -201,25 +201,27 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     private void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
-        // Case cible occupée → on ignore pour l’instant
-        if (board[toRow][toCol] != null) {
-            System.out.println("Case occupée");
+        // Interdire de prendre une pièce alliée
+        if (board[toRow][toCol] != null
+                && board[toRow][toCol].isRed() == board[fromRow][fromCol].isRed()) {
+            System.out.println("Case occupée par un allié");
             return;
         }
 
-        // Déplacement logique
+        // Déplacement logique (capture si une pièce ennemie était là)
         board[toRow][toCol] = board[fromRow][fromCol];
         board[fromRow][fromCol] = null;
 
         // Déplacement visuel
         cells[toRow][toCol].setText(cells[fromRow][fromCol].getText());
         cells[toRow][toCol].setForeground(cells[fromRow][fromCol].getForeground());
-
         cells[fromRow][fromCol].setText("");
 
-        // Réinitialiser les couleurs
         resetBoardColors();
-        checkVictory(toRow, toCol);
+
+        // Vérifier victoire après le coup
+        checkVictory();
+
     }
 
     private void resetBoardColors() {
@@ -363,58 +365,56 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
 
-    private void checkVictory(int row, int col) {
-        Piece piece = board[row][col];
-    if (piece == null) return;
+    private void checkVictory() {
+        boolean redMasterAlive = false;
+        boolean blueMasterAlive = false;
 
-    // 1️⃣ Capture du maître adverse
-    boolean redMasterAlive = false;
-    boolean blueMasterAlive = false;
+        int redMasterRow = -1, redMasterCol = -1;
+        int blueMasterRow = -1, blueMasterCol = -1;
 
-    for (int r = 0; r < 5; r++) {
-        for (int c = 0; c < 5; c++) {
-            if (board[r][c] != null &&
-                board[r][c].getType() == Piece.Type.MASTER) {
-
-                if (board[r][c].isRed()) redMasterAlive = true;
-                else blueMasterAlive = true;
+        for (int r = 0; r < 5; r++) {
+            for (int c = 0; c < 5; c++) {
+                Piece p = board[r][c];
+                if (p != null && p.getType() == Piece.Type.MASTER) {
+                    if (p.isRed()) {
+                        redMasterAlive = true;
+                        redMasterRow = r;
+                        redMasterCol = c;
+                    } else {
+                        blueMasterAlive = true;
+                        blueMasterRow = r;
+                        blueMasterCol = c;
+                    }
+                }
             }
         }
-    }
 
-    if (!redMasterAlive) {
-        showWinner("Bleu");
-        return;
-    }
-
-    if (!blueMasterAlive) {
-        showWinner("Rouge");
-        return;
-    }
-
-    // 2️⃣ Victoire par le temple
-    if (piece.getType() == Piece.Type.MASTER) {
-
-        if (piece.isRed() &&
-            row == BLUE_TEMPLE_ROW && col == BLUE_TEMPLE_COL) {
+        // Victoire par capture du maître
+        if (!redMasterAlive) {
+            showWinner("Bleu");
+            return;
+        }
+        if (!blueMasterAlive) {
             showWinner("Rouge");
+            return;
         }
 
-        if (!piece.isRed() &&
-            row == RED_TEMPLE_ROW && col == RED_TEMPLE_COL) {
+        // Victoire par temple
+        if (redMasterRow == 0 && redMasterCol == 2) {
+            showWinner("Rouge");
+            return;
+        }
+        if (blueMasterRow == 4 && blueMasterCol == 2) {
             showWinner("Bleu");
         }
     }
-    }
 
     private void showWinner(String winner) {
-        JOptionPane.showMessageDialog(
-        this,
-        "Victoire du joueur " + winner + " !",
-        "Fin de partie",
-        JOptionPane.INFORMATION_MESSAGE
-    );
-    System.exit(0);
+        JOptionPane.showMessageDialog(this,
+                "Victoire du joueur " + winner + " !",
+                "Fin de partie",
+                JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
     }
 
 
