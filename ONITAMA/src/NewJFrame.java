@@ -25,6 +25,14 @@ public class NewJFrame extends javax.swing.JFrame {
     private JPanel cardsPanel;
     private boolean redTurn = true; // rouge commence
     private JLabel turnLabel;
+    private Card middleCard;
+    private JButton middleCardButton;
+    private JButton[] cardButtons = new JButton[2];
+    private static final int RED_TEMPLE_ROW = 4;
+    private static final int RED_TEMPLE_COL = 2;
+
+    private static final int BLUE_TEMPLE_ROW = 0;
+    private static final int BLUE_TEMPLE_COL = 2;
 
     /**
      * Creates new form NewJFrame
@@ -33,8 +41,15 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         createBoard();
         initPieces();
-        initCards();
+
+        initCards();         // crée les objets Card + middleCard
+        createCardsPanel();  // crée l'UI des cartes une seule fois
+
         initTurnLabel();
+
+        pack();
+        setLocationRelativeTo(null);
+
     }
 
     /**
@@ -149,7 +164,8 @@ public class NewJFrame extends javax.swing.JFrame {
         // 2️⃣ Tentative de déplacement
         if (isMoveAllowed(selectedRow, selectedCol, row, col)) {
             movePiece(selectedRow, selectedCol, row, col);
-            redTurn = !redTurn; // changer de joueur
+            exchangeCards();
+            redTurn = !redTurn;
             updateTurnLabel();
         }
 
@@ -203,6 +219,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         // Réinitialiser les couleurs
         resetBoardColors();
+        checkVictory(toRow, toCol);
     }
 
     private void resetBoardColors() {
@@ -218,13 +235,11 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     private void initCards() {
-        // Carte Tigre
         List<Move> tigreMoves = new ArrayList<>();
         tigreMoves.add(new Move(0, -2));
         tigreMoves.add(new Move(0, 1));
         Card tigre = new Card("Tigre", tigreMoves);
 
-        // Carte Grue
         List<Move> grueMoves = new ArrayList<>();
         grueMoves.add(new Move(0, -1));
         grueMoves.add(new Move(-1, 1));
@@ -234,27 +249,41 @@ public class NewJFrame extends javax.swing.JFrame {
         playerCards[0] = tigre;
         playerCards[1] = grue;
 
-        createCardsPanel();
+        middleCard = new Card("Cobra", new ArrayList<>());
     }
 
     private void createCardsPanel() {
-        cardsPanel = new JPanel();
-        cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        cardsPanel = new JPanel(new BorderLayout());
 
-        for (Card card : playerCards) {
-            JButton cardButton = new JButton(card.getName());
-            cardButton.setPreferredSize(new Dimension(120, 60));
+        JPanel playerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
-            cardButton.addActionListener(e -> {
-                selectedCard = card;
-                System.out.println("Carte sélectionnée : " + card.getName());
+        for (int i = 0; i < 2; i++) {
+            JButton btn = new JButton();
+            btn.setPreferredSize(new Dimension(120, 60));
+
+            final int index = i;
+            btn.addActionListener(e -> {
+                selectedCard = playerCards[index];
+                if (selectedCard != null) {
+                    System.out.println("Carte sélectionnée : " + selectedCard.getName());
+                }
             });
 
-            cardsPanel.add(cardButton);
+            cardButtons[i] = btn;
+            playerPanel.add(btn);
         }
 
+        middleCardButton = new JButton();
+        middleCardButton.setEnabled(false);
+        middleCardButton.setPreferredSize(new Dimension(120, 60));
+
+        cardsPanel.add(playerPanel, BorderLayout.SOUTH);
+        cardsPanel.add(middleCardButton, BorderLayout.CENTER);
+
         getContentPane().add(cardsPanel, BorderLayout.SOUTH);
-        pack();
+
+        updateCardsDisplay(); // ← clé
+
     }
 
     private void showPossibleMoves(int row, int col) {
@@ -310,6 +339,82 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void updateTurnLabel() {
         turnLabel.setText(redTurn ? "Tour : Rouge" : "Tour : Bleu");
+    }
+
+    private void exchangeCards() {
+        selectedCard = null;
+        updateCardsDisplay();
+
+    }
+
+    private void updateCardsDisplay() {
+        for (int i = 0; i < 2; i++) {
+            if (playerCards[i] != null) {
+                cardButtons[i].setText(playerCards[i].getName());
+                cardButtons[i].setEnabled(true);
+            } else {
+                cardButtons[i].setText("");
+                cardButtons[i].setEnabled(false);
+            }
+        }
+
+        if (middleCard != null) {
+            middleCardButton.setText(middleCard.getName());
+        }
+    }
+
+    private void checkVictory(int row, int col) {
+        Piece piece = board[row][col];
+    if (piece == null) return;
+
+    // 1️⃣ Capture du maître adverse
+    boolean redMasterAlive = false;
+    boolean blueMasterAlive = false;
+
+    for (int r = 0; r < 5; r++) {
+        for (int c = 0; c < 5; c++) {
+            if (board[r][c] != null &&
+                board[r][c].getType() == Piece.Type.MASTER) {
+
+                if (board[r][c].isRed()) redMasterAlive = true;
+                else blueMasterAlive = true;
+            }
+        }
+    }
+
+    if (!redMasterAlive) {
+        showWinner("Bleu");
+        return;
+    }
+
+    if (!blueMasterAlive) {
+        showWinner("Rouge");
+        return;
+    }
+
+    // 2️⃣ Victoire par le temple
+    if (piece.getType() == Piece.Type.MASTER) {
+
+        if (piece.isRed() &&
+            row == BLUE_TEMPLE_ROW && col == BLUE_TEMPLE_COL) {
+            showWinner("Rouge");
+        }
+
+        if (!piece.isRed() &&
+            row == RED_TEMPLE_ROW && col == RED_TEMPLE_COL) {
+            showWinner("Bleu");
+        }
+    }
+    }
+
+    private void showWinner(String winner) {
+        JOptionPane.showMessageDialog(
+        this,
+        "Victoire du joueur " + winner + " !",
+        "Fin de partie",
+        JOptionPane.INFORMATION_MESSAGE
+    );
+    System.exit(0);
     }
 
 
