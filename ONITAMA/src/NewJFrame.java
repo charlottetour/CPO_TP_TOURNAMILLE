@@ -458,6 +458,16 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     private void exchangeCards() {
+        for (int i = 0; i < 2; i++) {
+            if (playerCards[i] == selectedCard) {
+
+                Card temp = middleCard;
+                middleCard = playerCards[i];
+                playerCards[i] = temp;
+                break;
+            }
+        }
+
         selectedCard = null;
         updateCardsDisplay();
 

@@ -8,6 +8,7 @@
  * @author ctour
  */
 public class Piece {
+
     public enum Type {
         MASTER, STUDENT
     }
@@ -27,5 +28,5 @@ public class Piece {
     public boolean isRed() {
         return isRed;
     }
-    
+
 }
