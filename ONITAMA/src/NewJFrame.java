@@ -4,6 +4,8 @@
  */
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,6 +20,11 @@ public class NewJFrame extends javax.swing.JFrame {
     private Piece[][] board = new Piece[5][5];
     private int selectedRow = -1;
     private int selectedCol = -1;
+    private Card[] playerCards = new Card[2];
+    private Card selectedCard = null;
+    private JPanel cardsPanel;
+    private boolean redTurn = true; // rouge commence
+    private JLabel turnLabel;
 
     /**
      * Creates new form NewJFrame
@@ -26,6 +33,8 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         createBoard();
         initPieces();
+        initCards();
+        initTurnLabel();
     }
 
     /**
@@ -113,25 +122,38 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     private void onCellClicked(int row, int col) {
-        // 1️⃣ Si aucun pion sélectionné
+        // 1️⃣ Sélection d’un pion
         if (selectedRow == -1 && selectedCol == -1) {
 
-            // Vérifier qu'il y a un pion
             if (board[row][col] != null) {
+
+                // Vérifier que c’est le bon joueur
+                if (board[row][col].isRed() != redTurn) {
+                    return;
+                }
+
                 selectedRow = row;
                 selectedCol = col;
 
+                resetBoardColors();
                 cells[row][col].setBackground(Color.ORANGE);
-                System.out.println("Pion sélectionné en (" + row + ", " + col + ")");
+
+                // Afficher les coups possibles
+                if (selectedCard != null) {
+                    showPossibleMoves(row, col);
+                }
             }
             return;
         }
 
-        // 2️⃣ Si un pion est déjà sélectionné
-        // → tenter un déplacement
-        movePiece(selectedRow, selectedCol, row, col);
+        // 2️⃣ Tentative de déplacement
+        if (isMoveAllowed(selectedRow, selectedCol, row, col)) {
+            movePiece(selectedRow, selectedCol, row, col);
+            redTurn = !redTurn; // changer de joueur
+            updateTurnLabel();
+        }
 
-        // Réinitialiser la sélection
+        resetBoardColors();
         selectedRow = -1;
         selectedCol = -1;
     }
@@ -194,6 +216,102 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         }
     }
+
+    private void initCards() {
+        // Carte Tigre
+        List<Move> tigreMoves = new ArrayList<>();
+        tigreMoves.add(new Move(0, -2));
+        tigreMoves.add(new Move(0, 1));
+        Card tigre = new Card("Tigre", tigreMoves);
+
+        // Carte Grue
+        List<Move> grueMoves = new ArrayList<>();
+        grueMoves.add(new Move(0, -1));
+        grueMoves.add(new Move(-1, 1));
+        grueMoves.add(new Move(1, 1));
+        Card grue = new Card("Grue", grueMoves);
+
+        playerCards[0] = tigre;
+        playerCards[1] = grue;
+
+        createCardsPanel();
+    }
+
+    private void createCardsPanel() {
+        cardsPanel = new JPanel();
+        cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
+        for (Card card : playerCards) {
+            JButton cardButton = new JButton(card.getName());
+            cardButton.setPreferredSize(new Dimension(120, 60));
+
+            cardButton.addActionListener(e -> {
+                selectedCard = card;
+                System.out.println("Carte sélectionnée : " + card.getName());
+            });
+
+            cardsPanel.add(cardButton);
+        }
+
+        getContentPane().add(cardsPanel, BorderLayout.SOUTH);
+        pack();
+    }
+
+    private void showPossibleMoves(int row, int col) {
+        int direction = board[row][col].isRed() ? -1 : 1;
+
+        for (Move move : selectedCard.getMoves()) {
+
+            int newRow = row + move.dy * direction;
+            int newCol = col + move.dx;
+
+            if (newRow < 0 || newRow >= 5 || newCol < 0 || newCol >= 5) {
+                continue;
+            }
+
+            // Case vide ou capture possible
+            if (board[newRow][newCol] == null
+                    || board[newRow][newCol].isRed() != board[row][col].isRed()) {
+
+                cells[newRow][newCol].setBackground(Color.GREEN);
+            }
+        }
+    }
+
+    private boolean isMoveAllowed(int fromRow, int fromCol, int toRow, int toCol) {
+        if (selectedCard == null) {
+            return false;
+        }
+
+        int direction = board[fromRow][fromCol].isRed() ? -1 : 1;
+
+        for (Move move : selectedCard.getMoves()) {
+
+            int targetRow = fromRow + move.dy * direction;
+            int targetCol = fromCol + move.dx;
+
+            if (targetRow == toRow && targetCol == toCol) {
+
+                // Case vide ou capture ennemie
+                return board[toRow][toCol] == null
+                        || board[toRow][toCol].isRed() != board[fromRow][fromCol].isRed();
+            }
+        }
+        return false;
+    }
+
+    private void initTurnLabel() {
+        turnLabel = new JLabel("Tour : Rouge", SwingConstants.CENTER);
+        turnLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        turnLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        getContentPane().add(turnLabel, BorderLayout.NORTH);
+    }
+
+    private void updateTurnLabel() {
+        turnLabel.setText(redTurn ? "Tour : Rouge" : "Tour : Bleu");
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
