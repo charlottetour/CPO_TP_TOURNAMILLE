@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -237,21 +239,133 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     private void initCards() {
-        List<Move> tigreMoves = new ArrayList<>();
-        tigreMoves.add(new Move(0, -2));
-        tigreMoves.add(new Move(0, 1));
-        Card tigre = new Card("Tigre", tigreMoves);
+        List<Card> allCards = new ArrayList<>();
 
-        List<Move> grueMoves = new ArrayList<>();
-        grueMoves.add(new Move(0, -1));
-        grueMoves.add(new Move(-1, 1));
-        grueMoves.add(new Move(1, 1));
-        Card grue = new Card("Grue", grueMoves);
+        // TIGRE
+        allCards.add(new Card("Tigre", moves(
+                new Move(0, -2),
+                new Move(0, 1)
+        )));
 
-        playerCards[0] = tigre;
-        playerCards[1] = grue;
+        // DRAGON
+        allCards.add(new Card("Dragon", moves(
+                new Move(-2, -1),
+                new Move(2, -1),
+                new Move(-1, 1),
+                new Move(1, 1)
+        )));
 
-        middleCard = new Card("Cobra", new ArrayList<>());
+        // GRENOUILLE
+        allCards.add(new Card("Grenouille", moves(
+                new Move(-2, 0),
+                new Move(-1, -1),
+                new Move(1, 1)
+        )));
+
+        // LAPIN
+        allCards.add(new Card("Lapin", moves(
+                new Move(2, 0),
+                new Move(1, -1),
+                new Move(-1, 1)
+        )));
+
+        // CRABE
+        allCards.add(new Card("Crabe", moves(
+                new Move(-2, 0),
+                new Move(0, -1),
+                new Move(2, 0)
+        )));
+
+        // ÉLÉPHANT
+        allCards.add(new Card("Éléphant", moves(
+                new Move(-1, 0),
+                new Move(-1, -1),
+                new Move(1, 0),
+                new Move(1, -1)
+        )));
+
+        // OIE
+        allCards.add(new Card("Oie", moves(
+                new Move(-1, 0),
+                new Move(-1, -1),
+                new Move(1, 0),
+                new Move(1, 1)
+        )));
+
+        // COQ
+        allCards.add(new Card("Coq", moves(
+                new Move(-1, 0),
+                new Move(-1, 1),
+                new Move(1, 0),
+                new Move(1, -1)
+        )));
+
+        // SINGE
+        allCards.add(new Card("Singe", moves(
+                new Move(-1, -1),
+                new Move(1, -1),
+                new Move(-1, 1),
+                new Move(1, 1)
+        )));
+
+        // MANTE
+        allCards.add(new Card("Mante", moves(
+                new Move(-1, -1),
+                new Move(0, 1),
+                new Move(1, -1)
+        )));
+
+        // CHEVAL
+        allCards.add(new Card("Cheval", moves(
+                new Move(0, -1),
+                new Move(-1, 0),
+                new Move(0, 1)
+        )));
+
+        // BŒUF
+        allCards.add(new Card("Bœuf", moves(
+                new Move(0, -1),
+                new Move(1, 0),
+                new Move(0, 1)
+        )));
+
+        // GRUE
+        allCards.add(new Card("Grue", moves(
+                new Move(0, -1),
+                new Move(-1, 1),
+                new Move(1, 1)
+        )));
+
+        // SANGLIER
+        allCards.add(new Card("Sanglier", moves(
+                new Move(-1, 0),
+                new Move(0, -1),
+                new Move(1, 0)
+        )));
+
+        // ANGUILLE
+        allCards.add(new Card("Anguille", moves(
+                new Move(-1, -1),
+                new Move(1, 0),
+                new Move(-1, 1)
+        )));
+
+        // COBRA
+        allCards.add(new Card("Cobra", moves(
+                new Move(1, -1),
+                new Move(-1, 0),
+                new Move(1, 1)
+        )));
+
+        // 🎲 Tirage aléatoire
+        Collections.shuffle(allCards);
+
+        // Distribution
+        playerCards[0] = allCards.get(0);
+        playerCards[1] = allCards.get(1);
+
+        // (on fera les cartes du joueur Bleu plus tard si tu veux être ultra fidèle)
+        middleCard = allCards.get(4);
     }
 
     private void createCardsPanel() {
@@ -289,7 +403,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     private void showPossibleMoves(int row, int col) {
-        int direction = board[row][col].isRed() ? -1 : 1;
+        int direction = board[row][col].isRed() ? 1 : -1;
 
         for (Move move : selectedCard.getMoves()) {
 
@@ -314,7 +428,7 @@ public class NewJFrame extends javax.swing.JFrame {
             return false;
         }
 
-        int direction = board[fromRow][fromCol].isRed() ? -1 : 1;
+        int direction = board[fromRow][fromCol].isRed() ? 1 : -1;
 
         for (Move move : selectedCard.getMoves()) {
 
@@ -415,6 +529,14 @@ public class NewJFrame extends javax.swing.JFrame {
                 "Fin de partie",
                 JOptionPane.INFORMATION_MESSAGE);
         System.exit(0);
+    }
+
+    private List<Move> moves(Move... moves) {
+        List<Move> list = new ArrayList<>();
+        for (Move m : moves) {
+            list.add(m);
+        }
+        return list;
     }
 
 
